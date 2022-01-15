@@ -29,11 +29,32 @@
     };
 
     const solveSudoku = () => {
+        joinSudokuValues();
 
+        const dataToSend = sudokuValues.join("");
+
+        var options = {
+        method: 'POST',
+        url: 'https://solve-sudoku.p.rapidapi.com/',
+        headers: {
+            'content-type': 'application/json',
+            'x-rapidapi-host': 'solve-sudoku.p.rapidapi.com',
+            'x-rapidapi-key': ''
+        },
+        data: {
+            puzzle: dataToSend
+        }
+        };
+
+        fetchTool.request(options).then(function (response) {
+            console.log('data is:', response.data);
+        }).catch(function (error) {
+            console.error(error);
+        });
     };
 
     // added click listener for solve button
-    solvePuzzleBtn.addEventListener("click", joinSudokuValues);
+    solvePuzzleBtn.addEventListener("click", solveSudoku);
 
     // loop over squares to create squares numbered inputs
     for (let i = 0; i< puzzleSquares; i++) {
