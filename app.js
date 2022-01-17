@@ -67,7 +67,6 @@
         joinSudokuValues();
 
         const dataToSend = sudokuValues.join("");
-        console.log("data to send: ", dataToSend);
 
         fetch("http://localhost:8000/solve", {
             method: "POST",
@@ -80,11 +79,9 @@
             })
         }).then(response => response.json())
             .then(data => {
-                console.log('data is:', data);
                 populateResult(data);
                 
             }).catch(function (error) {
-                console.error(error);
             });
     };
 
@@ -101,6 +98,8 @@
         inputEl.setAttribute("min", 0);
         inputEl.setAttribute("max", 9);
 
+
+        // rule for distinguishing odd cells
         if (
             ((i % 9 == 0 || i % 9 == 1 || i % 9 == 2) && (i < 21 || i > 53)) ||
             ((i % 9 == 3 || i % 9 == 4 || i % 9 == 5) && (i > 29 && i < 51)) ||
