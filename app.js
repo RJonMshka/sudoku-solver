@@ -1,5 +1,5 @@
 // Introducing an IIFE for avoiding pollution in global namespace
-(function (fetchTool) {
+(function () {
     const puzzleContainer = document.querySelector("#puzzle-container");
     const solvePuzzleBtn = document.querySelector("#solve-puzzle-btn");
     const clearPuzzleBtn = document.querySelector("#clear-puzzle-btn");
@@ -9,6 +9,7 @@
 
     let sudokuValues = [];
 
+    // Clears the grid
     const clearSudokuValues = () => {
         // clear the message field
         messageBlock.innerHTML = "";
@@ -20,7 +21,7 @@
         });
     }
 
-    // This method 
+    // This method extracts the input puzzle
     const joinSudokuValues = () => {
         sudokuValues = [];
 
@@ -47,6 +48,7 @@
 
     };
 
+    // This method populates the result in the 9x9 sudoku grid
     const populateResult = response => {
         const allInputs = document.querySelectorAll("input");
         if (response.canBeSolved && response.answer) {
@@ -58,6 +60,7 @@
         }
     }
 
+    // This method is the main resolver for Sudoku Puzzle
     const solveSudoku = () => {
         // clear the message field
         messageBlock.innerHTML = "";
@@ -66,25 +69,23 @@
         const dataToSend = sudokuValues.join("");
         console.log("data to send: ", dataToSend);
 
-        var options = {
-            method: 'POST',
-            url: 'https://sudoku-solver2.p.rapidapi.com/',
+        fetch("http://localhost:8000/solve", {
+            method: "POST",
             headers: {
-                'content-type': 'application/json',
-                'x-rapidapi-host': 'sudoku-solver2.p.rapidapi.com',
-                'x-rapidapi-key': '30be91547fmsh3a5434302748c46p1ab85djsn00e64d098375'
+                "content-type": "application/json",
+                "Accept": "application/json"
             },
-            data: {
-                input: dataToSend
-            }
-        };
-
-        fetchTool.request(options).then(response => {
-            populateResult(response.data);
-            console.log('data is:', response.data);
-        }).catch(function (error) {
-            console.error(error);
-        });
+            body: JSON.stringify({
+                data: dataToSend
+            })
+        }).then(response => response.json())
+            .then(data => {
+                console.log('data is:', data);
+                populateResult(data);
+                
+            }).catch(function (error) {
+                console.error(error);
+            });
     };
 
     // added click listener for solve button
@@ -100,9 +101,17 @@
         inputEl.setAttribute("min", 0);
         inputEl.setAttribute("max", 9);
 
+        if (
+            ((i % 9 == 0 || i % 9 == 1 || i % 9 == 2) && (i < 21 || i > 53)) ||
+            ((i % 9 == 3 || i % 9 == 4 || i % 9 == 5) && (i > 29 && i < 51)) ||
+            ((i % 9 == 6 || i % 9 == 7 || i % 9 == 8) && (i < 27 || i > 59))
+        ) {
+            inputEl.classList.add('odd-section')
+        }
+
         puzzleContainer.appendChild(inputEl);
     }
-})(axios);
+})();
 
 
 

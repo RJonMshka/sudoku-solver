@@ -1,0 +1,29 @@
+{
+  "name": "sudoku-solver",
+  "version": "1.0.0",
+  "description": "Sudoku-Solver",
+  "main": "app.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RJonMshka/sudoku-solver.git"
+  },
+  "author": "Rajat Kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RJonMshka/sudoku-solver/issues"
+  },
+  "homepage": "https://github.com/RJonMshka/sudoku-solver#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "cors": "^2.8.5",
+    "dotenv": "^13.0.1",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
